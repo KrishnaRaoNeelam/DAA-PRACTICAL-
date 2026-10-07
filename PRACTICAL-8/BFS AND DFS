@@ -1,0 +1,114 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+int BFS(int start, vector<vector<int>>& graph) {
+
+    int vertices = graph.size();
+
+    vector<bool> visited(vertices, false);
+
+    queue<int> q;
+
+    //mark starting as visited
+    visited[start] = true;
+
+    //add starting vertex to queue
+    q.push(start);
+
+    while(!q.empty()){
+
+        //get the front vertex
+        int current = q.front();
+        q.pop();
+        cout << "Visited: " << current << endl;
+
+        //check all neighbors
+        for(int neighbor : graph[current]) {
+            if(!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+    
+}
+
+int main(){
+    
+    int vertices, edges;
+    cout << "Enter number of vertices: ";
+    cin >> vertices;
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    vector<vector<int>> graph(vertices);
+
+    cout << "Enter edges (u v):" << endl;
+    for(int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u); // For undirected graph
+    }
+    int start;
+    cout << "Enter starting vertex: ";
+    cin >> start;
+
+    cout<< "Breadth First Search starting from vertex " << start << ":" << endl;
+    
+    BFS(start, graph);
+}
+
+
+-------------------------
+
+
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int DFS(int start, vector<vector<int>> graph, vector<bool>& visited){
+
+    //mark starting as visited
+    visited[start] = true;
+
+    cout << "Visited: " << start << endl;
+
+    //check all neighbors
+    for(int neighbor : graph[start]) {
+        if(!visited[neighbor]) {
+            DFS(neighbor, graph, visited);
+        }
+    }
+}
+
+int main(){
+
+    int vertices, edges;
+    cout << "Enter number of vertices: ";
+    cin >> vertices;
+
+    cout << "Enter number of edges: ";
+    cin >> edges;
+
+    vector<vector<int>> graph(vertices);
+
+    cout << "Enter edges (u v):" << endl;
+    for(int i = 0; i < edges; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u); // For undirected graph
+    }
+
+    vector<bool> visited(vertices, false);
+
+    int start;
+    cout << "Enter starting vertex: ";
+    cin >> start;
+
+    DFS(start, graph, visited);
+}
